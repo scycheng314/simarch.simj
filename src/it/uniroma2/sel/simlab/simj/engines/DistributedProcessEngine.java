@@ -58,9 +58,10 @@ import it.uniroma2.sel.simlab.simj.exceptions.UnknownLocalEntityException;
 import java.util.Date;
 import java.util.List;
 
-/** Defines the distributed simulation engine for process interaction formalism
+/** Defines the distributed simulation engine for the process interaction formalism
  *
  * @author  Daniele Dianni
+ * @version 1.0 06-01-06
  */
 public class DistributedProcessEngine extends LocalProcessEngine implements Layer1ToLayer2 {    
     
@@ -80,6 +81,9 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
     private PEvent receivedEvent;
 
     // HLA Performance statistics
+    // the attributes are currently unused, but are temporarely left here
+    // to support the implementation of sampling capabilities for the
+    // simulation performance
     private double totalSendingTime = 0.0;
     private double nextMessageRequestAvailableTotalTime = 0.0;
     private int numberOfSendings = 0;
@@ -91,24 +95,30 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
     private double totalInternalSchedulingTime = 0.0;
     private int numberOfInternalScheduling = 0;
       
-    /** Contructor.
-     * @param hostName Nome dell'host che ospita l'RTI.
-     * @param portNumber Numero della porta sulla quale l'RTI, ospitata dall'host <CODE>hostName</CODE>,
-     */    
+    /** Builds an instance of the DistributedProcessEngine, providing it with a
+     * reference to the underlying Layer 1 services
+     *
+     * @param ddesInterface the object implementing the Layer 1 service
+     */
     public DistributedProcessEngine(final Layer2ToLayer1 ddesInterface) {           
         super();
 
         unSetSimulationEndsReceived();
         unSetEventReceived();
 
+        // initialize also the engine references within the LocalEntities. This is needed
+        // as each local entity (Layer 3) will use the Layer 2 services provided by this engine
         LocalEntity.setEngine(this);                
 
         setDdes(ddesInterface);                
     }    
 
-    /*
+    /**
      * Returns the entity instance from instances of the SimArch's GeneralEntity interface.
      * If the instance refers to a remote entity, a null value is returned
+     *
+     * @param e the general (local or distributed) entity
+     *
      */
     public SimjEntity getEntity(final GeneralEntity e) throws UnknownLocalEntityException, InvalidNameException { 
         if (e.isLocal()) {
@@ -119,19 +129,31 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
         }
     }
 
-    /*
+    /**
      * Return the system name as the name of the underlying federate
+     *
+     * @return {@inheritDoc }
      */
     public Name getSystemName() {
         return ddes.getSystemName();
     }
     
-    /*
-     * Schedule a simulation event, using the required parameters
+    /**
+     * {@inheritDoc }
+     *
+     * @param src {@inheritDoc }
+     * @param link {@inheritDoc }
+     * @param delay {@inheritDoc }
+     * @param tag {@inheritDoc }
+     * @param data {@inheritDoc }
+     * @throws SimjException {@inheritDoc }
+     * @throws AttemptingToScheduleAnEventInPastTimeException {@inheritDoc }
+     * @throws UnknownEntityException {@inheritDoc }
+     * @throws PortNotProperlyConfiguredException {@inheritDoc }
      */
     public void schedule(final LocalEntity src, final Link link, final Time delay, final Enum tag, final Object data) throws SimjException, AttemptingToScheduleAnEventInPastTimeException, UnknownEntityException, PortNotProperlyConfiguredException {                
         List<? extends InputPort> inputPorts = link.getInputPorts();
-        
+
         for (InputPort p : inputPorts) {
             if (p.getOwner().isLocal()) {
                 schedule(src, getEntityFromId(p.getOwner().getEntityId()), delay, tag, data);
@@ -141,13 +163,19 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
         }
     }
 
-    /*
-     * Schedules a simulation event, using the available parameters
+    /**
+     * {@inheritDoc }
+     *
+     * @param src {@inheritDoc }
+     * @param dest {@inheritDoc }
+     * @param delay {@inheritDoc }
+     * @param tag {@inheritDoc }
+     * @param data {@inheritDoc }
+     * @throws SimjException {@inheritDoc }
      */
     public void schedule(final SimjEntity src, final SimjEntity dest, final Time delay, final Enum tag, final Object data) throws SimjException {       
         //Date d = new Date();       
         
-        //?????????????????????
         if (dest.isLocal()) {
             super.schedule(src, dest, delay, tag, data);
         } else {
@@ -163,8 +191,15 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
          */
     }   
 
-    /*
-     * Schedules a simulation event, using the available parameters
+    /**
+     * {@inheritDoc }
+     *
+     * @param src {@inheritDoc }
+     * @param dest {@inheritDoc }
+     * @param delay {@inheritDoc }
+     * @param tag {@inheritDoc }
+     * @param data {@inheritDoc }
+     * @throws SimjException {@inheritDoc }
      */
     public void schedule(final SimjEntity src, final RemoteEntity dest, final Time delay, final Enum tag, final Object data) throws SimjException {        
         try {
@@ -179,7 +214,11 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
         }
     }
 
-    // Layer1ToLayer2 services implementation
+    /**
+     * {@inheritDoc }
+     * @param e {@inheritDoc }
+     * @throws TimeAlreadyPassedException {@inheritDoc }
+     */
     public void scheduleEvent(final Event e) throws TimeAlreadyPassedException {
         try {
             setEventReceived();        
@@ -195,7 +234,10 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
         }
     }
 
-    // Layer2ToLayer1 implementation
+    /**
+     * {@inheritDoc }
+     * @param t {@inheritDoc }
+     */
     public void scheduleSimulationEnd(final Time t) {
         try {
             schedule(new SimulationEndEvent(SimjTime.buildFrom(t)));
@@ -205,14 +247,17 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
     }    
         
     // Simj Process Engine methods
-    /*
+    /**
      * Determines whether the entity names with s, is a local or remote entiy
+     *
+     * @param s the name of the entity
+     * @return {@code true} if the entity is remote, {@code false} if it is local
      */
     public static boolean isRemoteEntity(final String s) {
         return (s.indexOf(".") > 0);
     }
 
-    /** Activates the simulation execution
+    /** {@inherit}
      */    
     public void start() throws SimjException {        
         try {
@@ -235,7 +280,7 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
         }
     }
 
-    /*
+    /**
      * Executes the locally defined entities
      */
     protected void runSim() throws DistributedSimulationInfrastructureInternalException, GlobalSimulationTimeAlreadyPassedException, SimjException {        
@@ -243,7 +288,8 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
 
         System.out.println("Simj DistributedProcessEngine: Starting entities");
         LocalEntity e;
-        
+
+        // activates in order all entities
         startAllEntities();
         
         System.out.println("Simj DistributedProcessEngine: Ready to simulate");
@@ -260,7 +306,7 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
         //double startUpPhase = endStartUpPhase.getTime() - startStartUpPhase.getTime();
         //System.out.println("Start up phase:  " + startUpPhase);
         
-        
+        // regulates that only one entity at time will be executing
         while (isRunning()) {
             int runningEntities = 0;
             
@@ -296,46 +342,68 @@ public class DistributedProcessEngine extends LocalProcessEngine implements Laye
     }        
     
     // Getter and setter methods
-   /* public SimjName getSystemName() {
-        return systemName;
-    }
-*/    
+
+    /**
+     * Setter method for the Layer 1 service interface
+     *
+     * @param i service interface implementation
+     */
     protected void setDdes(final Layer2ToLayer1 i) {
         ddes = i;
     }
-    
+
+    /**
+     * Setter method for the distributed simulation clock, within the SimJ distributed engine
+     *
+     * @param t the time
+     */
     public void setDisClock(final SimjTime t) {
         setClock(t);
         disClock = t;
     }
-        
+
+    /**
+     * Getter method for the distributed simulation clock stored in SimJ
+     *
+     * @return the time
+     */
     public Time getDisClock() {
         return disClock;
     }           
     
-    /** Metodo di interfaccia con gli attributi interni.
-     * @return <CODE>true</CODE> se ha ricevuto l'evento di fine simulazione.
-     * <CODE>false</CODE> altrimenti.
+    /**
+     * Getter method for checking whether the simulation end event has been received or not
+     *
+     * @return {@code true} if received, {@code false} otherwise
      */       
     public boolean isSimulationEndsReceived() {
         return simulationEndsReceived;
     }
 
+    /**
+     * Setter method for accessing the {@link #eventReceived} flag
+     */
     protected void setEventReceived() {
         eventReceived = true;
     }   
-    
+
+    /**
+     * Setter method for accessing the {@link #eventReceived} flag
+     */
     protected void unSetEventReceived() {
         eventReceived = false;
     }    
     
-    /** Metodo di interfaccia con gli attributi interni.
-     * @param b Settare <CODE>true</CODE> s stata ricevuta la fine della simulazione
+    /** Setter method for the {@link #simulationEndsReceived}
+     * 
      */    
     public void setSimulationEndsReceived() {
         simulationEndsReceived = true;
     }
-    
+
+    /** Setter method for the {@link #simulationEndsReceived}
+     *
+     */
     public void unSetSimulationEndsReceived() {
         simulationEndsReceived = false;
     }   

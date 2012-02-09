@@ -24,12 +24,14 @@ package it.uniroma2.sel.simlab.simj.data;
 
 import it.uniroma2.sel.simlab.simarch.data.Time;
 
-/** Provides a layer 2 internal representation for Time interface
+/** Provides a SimJ internal representation for Layer 2 Time interface
  *
- * @author Daniele Gianni
+ *  @author  Daniele Gianni
+ *  @version 1.0 06-01-06
  */
 public class SimjTime implements Time {
-    
+
+    // the attribute storing the time
     private double value;
     
     /** 
@@ -49,45 +51,95 @@ public class SimjTime implements Time {
     public SimjTime(final Number n) {
         setValue(n);
     }
-        
+
+    /**
+     * Creates a new instance of Time
+     *
+     * @param t the time value
+     */
     public SimjTime(final Time t) {
         setValue(t.getValue());
     }
-    
+
+    /**
+     * Creates a new instance of Time
+     *
+     * @param t the time value
+     */
     public static SimjTime buildFrom(final Time t) {
         return new SimjTime(t);
     }
-       
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     */
     public void decreaseBy(final Time t) {
         value -= t.getValue();
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     */
     public SimjTime decreasedBy(final Time t) {
         return new SimjTime(value - t.getValue());
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     */
     public void increaseBy(final Time t) {
         value += t.getValue();
     }
-        
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     */
     public SimjTime increasedBy(final Time t) {
         return new SimjTime(value + t.getValue());
     }    
-    
+
+    /**
+     * Setter method for the time value
+     *
+     * @param n the time value
+     */
     public void setValue(final Number n) { //throws IllegalTimeValue() {        
         setValue(n.doubleValue());
     }
     
-
+    /**
+     * Setter method for the time value
+     *
+     * @param d the time value
+     */
     public void setValue(final double d) {
         //if (d() < 0) throws IllegalTimeValue(n.doubleValue + " < 0 ");
         value = d;
     }
-    
+
+    /**
+     * Getter method for the time vale
+     *
+     * @return the time value
+     */
     public double getValue() {
         return value;
     }    
-        
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     * @return {@inheritDoc }
+     */
     public int compareTo(final Time t) {        
         
         if (value < t.getValue()) return -1;
@@ -95,19 +147,43 @@ public class SimjTime implements Time {
         
         return 0;
     } 
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     * @return {@inheritDoc }
+     */
     public boolean isGreaterThan(final Time t) {
         return (compareTo(t) > 0);
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     * @return {@inheritDoc }
+     */
     public boolean isGreaterOrEqualThan(final Time t) {
         return (compareTo(t) >= 0);
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     * @return {@inheritDoc }
+     */
     public boolean isLesserThan(final Time t) {
         return (compareTo(t) < 0);
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     * @return {@inheritDoc }
+     */
     public boolean isLesserOrEqualThan(final Time t) {
         return (compareTo(t) <= 0);
     }    

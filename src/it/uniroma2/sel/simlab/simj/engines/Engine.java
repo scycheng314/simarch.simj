@@ -40,7 +40,7 @@ import it.uniroma2.sel.simlab.simj.exceptions.SimjException;
  * @version 1.0 07-01-05
  */
 public abstract class Engine {
-        
+    
     private final static int EVENT_LIST_INITIAL_SIZE = 100;
     private final static double INITIAL_TIME = 0.0;
 
@@ -55,16 +55,33 @@ public abstract class Engine {
         setEventsList(new SortedList(EVENT_LIST_INITIAL_SIZE));        
         setClock(new SimjTime(INITIAL_TIME));
     }        
-    
+
+    /**
+     * Retrieves and removes the next event in list
+     *
+     * @return the next event to be processed
+     */
     protected SimjEvent getNextEvent() {
         assert (eventsList.size() > 0): "Trying to get an event from an empty event list";
         return (SimjEvent) eventsList.removeFirst();
     }    
-    
+
+    /**
+     * Gets the current number of events
+     *
+     * @return the size of the event list
+     */
     public int getNumberOfEvents() {
         return this.getEventsList().size();
     }
-         
+
+    /**
+     * Inserts a {@link it.uniroma2.sel.simlab.simj.events.SimjEvent} event in the event list
+     * according to the event time
+     *
+     * @param e the event
+     * @throws SimjException thrown if {@code e}'s time is lesser than {@link #clock}
+     */
     public void schedule(SimjEvent e) throws SimjException { //throws AttemptingToSendEventToPastTimeException {        
         assert (e != null) : "Scheduling null event";                       
 
@@ -89,35 +106,41 @@ public abstract class Engine {
     // Properties access methods     
     
     /** Gets the clock.
-     * @return the clock.
      *
+     * @return the clock.
      */
     public SimjTime getClock() {
         return clock;
     }
-    
+
+    /**
+     * Retrieves the first event in the event list, without removing it
+     *
+     * @return the event
+     */
     protected SimjEvent seeNextEvent() {
         return (SimjEvent) eventsList.seeFirst();        
     }
-    /** Sets the clock
-     * @param t the new time for the clock
+
+    /** Sets the engine clock
      *
+     * @param t the new time for the clock
      */
     public void setClock(final SimjTime t) {
         clock = t;
     }   
     
     /** Gets the eventsList
-     * @return the eventsList.
      *
+     * @return the eventsList.
      */
     protected SortedList getEventsList() {
         return eventsList;
     }
     
     /** Sets the eventsList.
-     * @param l the eventList
      *
+     * @param l the eventList
      */
     private void setEventsList(final SortedList l) {
         eventsList = l;

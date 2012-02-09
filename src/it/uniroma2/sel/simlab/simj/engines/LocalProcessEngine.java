@@ -38,16 +38,17 @@ import it.uniroma2.sel.simlab.simj.events.SimulationEndEvent;
 import it.uniroma2.sel.simlab.simj.exceptions.SimjException;
 import it.uniroma2.sel.simlab.simj.exceptions.UnknownLocalEntityException;
 
-/** Specializes the Process Engine for local contexts
- *
+/** Specializes the Process Engine for local environments
  *
  * @author  Daniele Gianni
+ * @version 1.0 07-01-05
  */
 public class LocalProcessEngine extends ProcessEngine {
 
+    // the conventional name used to refer to local SimJ engines
     private /*final*/ SimjName LOCAL_SYSTEM_NAME;
 
-    // perf stats
+    // stats variable to collect performance data -- currently not used
     private double totalInternalSchedulingTime = 0.0;
     private int numberOfInternalScheduling = 0;
 
@@ -64,6 +65,12 @@ public class LocalProcessEngine extends ProcessEngine {
         }
     }
 
+    /**
+     * Created a new instance of the LocalProcessEngine, setting the simulation end
+     * at the time value specified by {@code simulationEnd}
+     *
+     * @param simulationEnd the end time for the local simulation execution
+     */
     public LocalProcessEngine(final Time simulationEnd) {
         try {
             LOCAL_SYSTEM_NAME = SimjName.buildFrom("local");
@@ -81,10 +88,24 @@ public class LocalProcessEngine extends ProcessEngine {
         }
     }
 
+    /**
+     * Gets the local engine name
+     *
+     * @return {@link #LOCAL_SYSTEM_NAME}
+     */
     public Name getSystemName() {
         return LOCAL_SYSTEM_NAME;
     }
 
+    /**
+     * Gets the memory reference to a {@code LocalEntity} from an abstract {@code GeneralEntity}
+     * description
+     *
+     * @param e the {@code GeneralEntity}
+     * @return the entity reference to the SimJ entity list
+     * @throws UnknownLocalEntityException thrown if the {@code GeneralEntity} cannot be found in the engine
+     * @throws InvalidNameException thrown if the {@code GeneralEntity}'s name does not conform to the naming convention
+     */
     public SimjEntity getEntity(final GeneralEntity e) throws UnknownLocalEntityException, InvalidNameException {
         if (e.isLocal()) {
             return getEntityFromId(e.getEntityId());
@@ -93,6 +114,17 @@ public class LocalProcessEngine extends ProcessEngine {
         }
     }
 
+    /**
+     * Schedules a local event from {@code src} to {@code dest}, at time {@code clock}
+     * + {@code delay}, associating to the event the {@code tag} and the {@code data}
+     *
+     * @param src the sending entity
+     * @param dest the recipient entity
+     * @param delay the time delay with respect to the engine's clock
+     * @param tag the event descriptor
+     * @param data the attached data to be associated to the event
+     * @throws SimjException
+     */
     public void schedule(final SimjEntity src, final SimjEntity dest, final Time delay, final Enum tag, final Object data) throws SimjException {
         //Date d = new Date();       
         schedule(new PLocalEvent((LocalEntity) src, (LocalEntity) dest, getClock().increasedBy(delay), tag, data));
@@ -106,6 +138,17 @@ public class LocalProcessEngine extends ProcessEngine {
          */
     }
 
+    /**
+     * Schedules a local event from entity named {@code src} to entity named {@code dest}, at time {@code clock}
+     * + {@code delay}, associating to the event the {@code tag} and the {@code data}
+     *
+     * @param src the name of the sender entity
+     * @param dest the name of the recipient entity
+     * @param delay the delay with respect to the engine's clock
+     * @param tag the event descriptor
+     * @param data the data to be attached to the event
+     * @throws SimjException
+     */
     public void schedule(final Name src, final Name dest, final Time delay, final Enum tag, final Object data) throws SimjException {
         schedule(new PLocalEvent(getEntity(src), getEntity(dest), getClock().increasedBy(delay), tag, data));
 
@@ -120,6 +163,11 @@ public class LocalProcessEngine extends ProcessEngine {
          */
     }
 
+    /**
+     * Activates the engine, by starting the execution all the registered entities
+     *
+     * @throws SimjException
+     */
     public void start() throws SimjException {
         setRunning(true);
 
@@ -168,18 +216,33 @@ public class LocalProcessEngine extends ProcessEngine {
         System.out.println("Simj LocalProcessEngine : Simulation completed");
     }
 
+    /**
+     * Activates the entity in position {@code i} in the engine's entity list
+     *
+     * @param i the entity ordinal
+     */
     protected void startEntity(int i) {
         assert ((i >= 0) && (i < getNumberOfEntities())) : "Attempting to start an unexisting entity";
 
         ((Thread) getEntity(i)).start();
+
+        // locks the semaphore regulating the execution of one entity per time
         getOneEntityIn().get();
     }
 
+    /**
+     * Interrupts the execution of all the entities
+     */
     public void stop() {
         setRunning(false);
         stopAllEntities();
     }
 
+    /**
+     * Interrupts the execution of the entity in position {@code i} in the engine's entity list
+     *
+     * @param i the entity ordinal
+     */
     protected void stopEntity(int i) {
         assert ((i >= 0) && (i < getNumberOfEntities())) : "Attempting to stop an unexisting entity";
 

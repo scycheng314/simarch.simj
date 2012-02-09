@@ -46,8 +46,7 @@ public class SimjRemoteEntity implements SimjEntity, RemoteEntity {
     /** Creates a new instance of {@code RemoteEntity}
      *  
      *  @param e the entity to build from
-     */
-    
+     */  
     public SimjRemoteEntity(final RemoteEntity e) throws InvalidNameException {
         assert (!engine.getSystemName().equals(e.getSystemName())) : "Remote system coincides with the local system";
         
@@ -74,40 +73,92 @@ public class SimjRemoteEntity implements SimjEntity, RemoteEntity {
         
         setName(SimjFullName.buildFrom(sn, en));
     }    
-        
+
+    /**
+     * Getter method for the engine property
+     *
+     * @return the reference to the distributed engine
+     */
     public static DistributedProcessEngine getEngine() {
         return engine;
     }
-    
+
+    /**
+     * Static factory method to create local stub of a remote SimJ entity from a SimArch compliant
+     * definition
+     *
+     * @param e the SimArch compliant entity
+     * @return the SimJ local stub
+     * @throws InvalidNameException
+     */
     public static SimjRemoteEntity buildFrom(final GeneralEntity e) throws InvalidNameException {        
         return new SimjRemoteEntity(SimjName.buildFrom(e.getSystemName()), SimjName.buildFrom(e.getEntityName()));
     }
-    
+
+    /**
+     * Static factory method to create local stub of a remote SimJ entity from general
+     * list of basic properties
+     *
+     * @param sn the system name
+     * @param en the entity name
+     * @return the SimJ local stub
+     * @throws InvalidNameException
+     */
     public static SimjRemoteEntity buildFrom(final Name sn, final Name en) throws InvalidNameException {        
         return new SimjRemoteEntity(SimjName.buildFrom(sn), SimjName.buildFrom(en));
     }
-    
+
+    /**
+     * Setter method for the engine property
+     *
+     * @param e the reference to the distributed engine
+     */
     public static void setEngine(final DistributedProcessEngine e) {
         engine = e;
     }
-    
+
+    /**
+     * Getter method for the entity name
+     *
+     * @return the entity name
+     */
     public Name getEntityName() {
         return name.getEntity();
     }
-    
+
+    /**
+     * Getter method for the entity unique id
+     *
+     * @return -1 as this is a remote entity and therefore has no local reference
+     */
     public Integer getEntityId() {
         return -1;        
     }
-    
+
+    /**
+     * Getter method for entity name
+     *
+     * @return the entity name
+     */
     public Name getFullName() {        
         return name;
-                //systemName.getValue() + SimjName.TOKEN + entityName.getValue();
+        //systemName.getValue() + SimjName.TOKEN + entityName.getValue();
     }
-    
+
+    /**
+     * Getter method for the system name
+     *
+     * @return the system name
+     */
     public Name getSystemName() {
         return name.getSystem();
     }
-    
+
+    /**
+     * Setter method for the entity name
+     *
+     * @param n the name
+     */
     public void setName(final SimjFullName n) {
         name = n;
     }    
@@ -120,6 +171,11 @@ public class SimjRemoteEntity implements SimjEntity, RemoteEntity {
         return false;
     }
 
+    /**
+     * {@inheritDoc }
+     *
+     * @return {@inheritDoc }
+     */
     public RemoteEntity getAsRemoteEntity() {
         return this;
     }

@@ -48,9 +48,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
-/** Specializes the abstract <code>Engine</code> for <i>Process Interaction</i> (PI) simulation
+/** Specializes the abstract <code>Engine</code> for <i>Process Interaction</i> (PI) paradigm
  *
- * @author  gianni
+ * @author  Daniele Gianni
  * @version 1.1 06-01-06
  */
 public abstract class ProcessEngine extends Engine {
@@ -77,7 +77,13 @@ public abstract class ProcessEngine extends Engine {
         setEntitiesH(new Hashtable());
         setEntitiesV(new Vector());
     }
-    
+
+    /**
+     * Adds a {@code LocalEntity} into the engine execution context
+     *
+     * @param e the entity
+     * @throws UnableToAddEntityException
+     */
     public void add(final LocalEntity e) throws UnableToAddEntityException {
         assert (e != null) : "Trying to add a null entity";
         
@@ -89,22 +95,51 @@ public abstract class ProcessEngine extends Engine {
             entitiesV.add(e);
         }
     }
-    
+
+    /**
+     * Retrieves the {@code LocalEntity} object reference from the entity id
+     *
+     * @param id the entity id
+     * @return the {@code LocalEntity} identified by {@code id}
+     */
     public LocalEntity getEntityFromId(final Integer id) {
         assert (id > 0) : "Invalid entity id: it must be non negative";
         return (LocalEntity) entitiesV.get(id);
     }
-    
+
+    /**
+     * Retrieves the {@code LocalEntity} object reference from the entity name
+     *
+     * @param n the entity name
+     * @return the {@code LocalEntity} identified by {@code n}
+     */
     public LocalEntity getEntityFromName(final SimjName n) {
         return (LocalEntity)entitiesH.get(n);
     }
-    
+
+    /**
+     * Gets the system name
+     *
+     * @return system name
+     */
     public abstract Name getSystemName();
-    
+
+    /**
+     * Suspends the execution of entity {@code e}, for a time {@code t}
+     *
+     * @param e entity to suspend
+     * @param t suspension time
+     */
     public void hold(final LocalEntity e, final Time t) {
         hold(e.getEntityId(), t);
     }
-    
+
+    /**
+     * Suspends the execution of entity ({@code id}), for a time {@code t}
+     *
+     * @param id id of the entity to suspend
+     * @param t suspension time
+     */
     public void hold(final int i, final Time t) {
         try {                        
             WakeUpEvent e = new WakeUpEvent(getEntity(i), getClock().increasedBy(t));            
@@ -113,7 +148,13 @@ public abstract class ProcessEngine extends Engine {
             assert false : "Unexpected exception caught in hold(int, Time)";
         }
     }
-    
+
+    /**
+     * Suspen
+     * @param e
+     * @param t
+     * @param ordinal
+     */
     public void holdWhileWait(final LocalEntity e, final Time t, final int ordinal) {
         holdWhileWait(e.getEntityId(), t, ordinal);
     }

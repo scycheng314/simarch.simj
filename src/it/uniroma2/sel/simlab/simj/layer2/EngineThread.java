@@ -27,7 +27,7 @@ import it.uniroma2.sel.simlab.simj.exceptions.SimjException;
 
 /** Defines the thread within which the engine operations take place
  *
- * This class is currently not used
+ * #### This class is currently not used ####
  *
  * @author Daniele Gianni
  */

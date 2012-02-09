@@ -25,17 +25,28 @@ package it.uniroma2.sel.simlab.simj.errors;
 /** Identifies a syntactical error in a SimJ name
  *
  * @author Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class InvalidNameError extends SimjError {
     
     /** Creates a new instance of InvalidNameError */
     public InvalidNameError() {
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param s {@inheritDoc }
+     */
     public InvalidNameError(final String s) {
         super(s);
     }
 
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritDoc }
+     */
     public InvalidNameError(final Throwable t) {
         super(t);
     }

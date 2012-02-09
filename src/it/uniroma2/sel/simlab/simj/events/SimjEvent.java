@@ -121,17 +121,26 @@ public abstract class SimjEvent implements Cloneable, Comparable {
         return time;
     }
     
-    /** Sets the event data*/
+    /** Sets the event data
+     *
+     * @param data data
+     */
     public void setData(final Object data) {
         this.data = data;
     }    
     
-    /** Sets the event data*/
+    /** Sets the event data
+     *
+     * @param tag event tag
+     */
     public void setTag(final Enum tag) {
         this.tag = tag;
     }
        
-    /** Sets the event data*/
+    /** Sets the event data
+     *
+     * @param time time
+     */
     public void setTime(final SimjTime time) {
         this.time = time;
     }            

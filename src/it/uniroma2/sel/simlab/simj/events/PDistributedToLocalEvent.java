@@ -44,6 +44,7 @@ import it.uniroma2.sel.simlab.simj.exceptions.SimjException;
 public class PDistributedToLocalEvent extends PEvent {
     
     //private RemoteEntity sender;
+
     /**
      * Creates a new instance of PDistributedToLocalEvent
      */
@@ -55,14 +56,14 @@ public class PDistributedToLocalEvent extends PEvent {
      * Creates a new instance of PDistributedToLocalEvent
      */
     public PDistributedToLocalEvent(SimjRemoteEntity s, LocalEntity r, final SimjTime t, final Enum e, final Object o) {
-        super(s, r, t, e, o);
-        
-        //sender = s;
+        super(s, r, t, e, o);        
     }
     
     /**
      * Builds {@code PDistributedToLocalEvent} from {@code e}. It is assumed that {@code e} is sent by a 
      *  remote entity and that {@code e}'s recipient is a local entity
+     *
+     * @param e event
      */
     public static PDistributedToLocalEvent buildFrom(final Event e) throws SimjException, InvalidNameException  {
         // assumed that event is sent by a remote entity
@@ -87,23 +88,48 @@ public class PDistributedToLocalEvent extends PEvent {
         
         return simjEvent;
     }
-    
+
+    /**
+     * Getter method for the engine property
+     *
+     * @return the reference to the engine
+     */
     public static DistributedProcessEngine getEngine() {
         return (DistributedProcessEngine) PEvent.getEngine();    
     }
-        
+
+    /**
+     * {@inheritDoc }
+     *
+     * @return {@inheritDoc }
+     */
     public SimjRemoteEntity getSender() {
         return (SimjRemoteEntity) super.getSender();
     }    
 
+    /**
+     * {@inheritDoc }
+     *
+     * @return {@inheritDoc }
+     */
     public Name getSenderName() {
         return getSender().getEntityName();
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @return {@inheritDoc }
+     */
     public LocalEntity getRecipient() {
         return (LocalEntity) super.getRecipient();
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @return {@inheritDoc }
+     */
     public Name getRecipientName() {
         return getRecipient().getEntityName();        
     }
@@ -115,7 +141,6 @@ public class PDistributedToLocalEvent extends PEvent {
      */
     public void process() throws SimjException {        
                 
-        //System.out.println("Sto processando un evento PDistributedToLocalEvent ************");
         DistributedProcessEngine dpe = getEngine();
                 
         if (getTime().isLesserThan(dpe.getClock())) {
@@ -134,25 +159,31 @@ public class PDistributedToLocalEvent extends PEvent {
                     recipient.setRunnable();
                 } else {
                     assert false : "The event recipient " + recipient.getFullName() + " was not expecting any events";
-                    // Deferred Events List!?!?!?
-                    //lpe.addToDeferredEventsList(this);
                 }
             }
         }
         getEngine().setClock(getTime());
-        
-        
+                
         //System.out.println("TAG ::> " + getTag().toString() + "  " + DistributedEvents.SIM_END_TAG.toString());
         if (getTag().name().equals(DistributedEvents.SIM_END_TAG.name())) {
-            //System.out.println("Sto fermando l'Engine!!!");
             getEngine().stop();
         }
     }
-    
+
+    /**
+     * Setter method for the recipient entity property
+     *
+     * @param e the reference to the local entity
+     */
     public void setRecipient(LocalEntity e) {
         super.setRecipient(e);
     }
-    
+
+    /**
+     * Setter method for the sender entity propertu
+     *
+     * @param e the reference to the sender entity
+     */
     public void setSender(SimjRemoteEntity e) {
         super.setSender(e);
     }

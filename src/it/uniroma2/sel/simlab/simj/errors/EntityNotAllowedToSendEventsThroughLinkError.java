@@ -26,13 +26,19 @@ package it.uniroma2.sel.simlab.simj.errors;
  * connected to any of the entity's ports
  *
  * @author  Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class EntityNotAllowedToSendEventsThroughLinkError extends ConfigurationError {
     
     /** Creates a new instance of EntityNotAllowedToSendEventsThroughThisPort */
     public EntityNotAllowedToSendEventsThroughLinkError() {
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param s {@inheritDoc }
+     */
     public EntityNotAllowedToSendEventsThroughLinkError(final String s) {
         super(s);
     }    

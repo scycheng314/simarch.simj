@@ -25,6 +25,7 @@ package it.uniroma2.sel.simlab.simj.exceptions;
 /** Occurs when a SimJ entity tries to schedule an event in the past
  *
  * @author Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class AttemptingToScheduleAnEventInPastTimeException extends TimeException {
     
@@ -32,7 +33,10 @@ public class AttemptingToScheduleAnEventInPastTimeException extends TimeExceptio
     public AttemptingToScheduleAnEventInPastTimeException() {
     }
     
-    /** Creates a new instance of AttemptingToScheduleAnEventInPastTimeException */
+    /** Creates a new instance of AttemptingToScheduleAnEventInPastTimeException
+     *
+     * @param s the message
+     */
     public AttemptingToScheduleAnEventInPastTimeException(final String s) {
         super(s);
     }

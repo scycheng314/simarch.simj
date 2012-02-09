@@ -25,13 +25,18 @@ package it.uniroma2.sel.simlab.simj.exceptions;
 /** Occurs when a recoverable SimJ configuration issue is detected
  *
  * @author  Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class ConfigurationException extends SimjException {
     
     /** Creates a new instance of ConfigurationException */
     public ConfigurationException() {
     }
-    
+
+    /** Creates a new instance of ConfigurationException
+     *
+     * @param s the message
+     */
     public ConfigurationException(final String s) {
         super(s);
     }

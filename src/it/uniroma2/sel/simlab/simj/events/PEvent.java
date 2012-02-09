@@ -35,7 +35,7 @@ import it.uniroma2.sel.simlab.simj.engines.ProcessEngine;
  *  @version    1.1 06-01-06
  */
 public abstract class PEvent extends SimjEvent implements Event {
-    
+
     private SimjEntity sender;
     private SimjEntity recipient;
             
@@ -130,13 +130,8 @@ public abstract class PEvent extends SimjEvent implements Event {
             
             String event = senderString + "." + recipientString + "." + getTime() + "." + tagString; 
             String event1 = senderString1 + "." + recipientString1 + "." + e.getTime() + "." + tagString1;
-
-            //System.out.println("event  : " + event);
-            //System.out.println("event1 : " + event1);
             
             compareResult = event.compareTo(event1);  
-            
-            //System.out.println("COMPARE RESULT :   " + compareResult);
             
             System.out.flush();
         }        
@@ -144,20 +139,40 @@ public abstract class PEvent extends SimjEvent implements Event {
         return compareResult;
     }
          
-    // accessor method        
-    
+    // accessor methods
+
+    /**
+     * Getter method for the recipient property
+     *
+     * @return the reference to the recipient property
+     */
     public SimjEntity getRecipient() {
         return recipient;
     }
-    
+
+    /**
+     * Getter method for the sender entity property
+     *
+     * @return the reference to the sender entity property
+     */
     public SimjEntity getSender() {
         return sender;
     }
-    
+
+    /**
+     * Setter method for the recipient entity property
+     *
+     * @param e the recipient entity
+     */
     public void setRecipient(final SimjEntity e) {
         recipient = e;
     }
-    
+
+    /**
+     * Setter method for the sender entity property
+     *
+     * @param e the sender entity
+     */
     public void setSender(final SimjEntity e) {
         sender = e;
     }       

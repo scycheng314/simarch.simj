@@ -25,17 +25,26 @@ package it.uniroma2.sel.simlab.simj.exceptions;
 /** Occurs when a name is used to refer to an unknown local SimJ entity
  *
  * @author Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class UnknownLocalEntityException extends UnknownEntityException {
     
     /** Creates a new instance of UnknownLocalEntity */
     public UnknownLocalEntityException() {
     }
-    
+
+    /** Creates a new instance of UnknownLocalEntity
+     *
+     * @param e encapsulated exception
+     */
     public UnknownLocalEntityException(final Exception e) {
         super(e);
     }
-    
+
+    /** Creates a new instance of UnknownLocalEntity
+     *
+     * @param s the message
+     */
     public UnknownLocalEntityException(final String s) {
         super(s);
     }

@@ -25,13 +25,19 @@ package it.uniroma2.sel.simlab.simj.exceptions;
 /** Occurs when the recipient entity of an event is unknown
  *
  * @author  Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class UnknownEventRecipientException extends SimjException {
     
     /** Creates a new instance of UnknownEventRecipientException */
     public UnknownEventRecipientException() {
     }
-    
+
+    /**
+     * Creates a new instance of UnknownEventRecipientException
+     *
+     * @param s the message
+     */
     public UnknownEventRecipientException(final String s) {
         super(s);
     }    

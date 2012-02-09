@@ -26,17 +26,28 @@ package it.uniroma2.sel.simlab.simj.exceptions;
  * these exceptions from those that can be raised by SimArch services
  *
  * @author Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class SimjInternalException extends SimjException {
     
     /** Creates a new instance of SimjInternalException */
     public SimjInternalException() {
     }
-    
+
+    /**
+     * Creates a new instance of SimjInternalException
+     *
+     * @param e encapsulated exception
+     */
     public SimjInternalException(final Exception e) {
         super(e);
     }
-    
+
+    /**
+     * Creates a new instance of SimjInternalException
+     *
+     * @param s the message
+     */
     public SimjInternalException(final String s) {
         super(s);
     }

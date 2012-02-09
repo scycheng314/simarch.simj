@@ -25,7 +25,7 @@ package it.uniroma2.sel.simlab.simj.layer2;
 import it.uniroma2.sel.simlab.simarch.interfaces.Layer3ToLayer2;
 import it.uniroma2.sel.simlab.simj.engines.ProcessEngine;
 
-/** This class is currently not used
+/** ### This class is currently not used ####
  *
  * @author Daniele Gianni
  */

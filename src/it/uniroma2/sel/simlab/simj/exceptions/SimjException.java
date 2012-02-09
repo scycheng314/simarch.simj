@@ -25,17 +25,27 @@ package it.uniroma2.sel.simlab.simj.exceptions;
 /** Defines the root class for all the SimJ's exceptions
  *
  * @author  Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class SimjException extends Exception {
     
     /** Creates a new instance of Exception */
     public SimjException() {
     }
-    
+
+    /** Creates a new instance of Exception
+     *
+     * @param e encapsulated exception
+     */
     public SimjException(final Exception e) {
         super(e);
     }
 
+    /**
+     * Creates a new instance of Exception
+     *
+     * @param s the message
+     */
     public SimjException(final String s) {
         super(s);
     }    

@@ -30,25 +30,40 @@ import it.uniroma2.sel.simlab.simj.entities.LocalEntity;
  * if an event is received before the specified time)
  *
  * @author Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class ConditionalWakeUpEvent extends WakeUpEvent {
 
     // internal identifier of the entity invoking the hold service
     private int ordinal;
-    //private static int c = 0;
-    //private static int d = 0;
-    
-    /** Creates a new instance of ConditionalWakeUpEvent */
+
+    /** Creates a new instance of ConditionalWakeUpEvent
+     *
+     * @param e entity to wake up
+     * @param t maximum time for the wakeup
+     * @param ordinal number of conditional wake up request
+     */
     public ConditionalWakeUpEvent(final LocalEntity e, final SimjTime t, final int ordinal) {
         super(e, t);
         
         setOrdinal(ordinal);
     }
-    
+
+    /**
+     * Settter method for the ordinal of the conditional wake up request
+     *
+     * @param i ordinal number
+     */
     protected void setOrdinal(final int i) {
         ordinal = i;
     }
-        
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param o {@inheritDoc }
+     * @return {@inheritDoc }
+     */
     public int compareTo(Object o) {
                 
         int comparisonResult = super.compareTo(o);
@@ -72,13 +87,9 @@ public class ConditionalWakeUpEvent extends WakeUpEvent {
         //System.out.println("Processo un conditional waiting " + getSender().getOrdinal() + " " + ordinal + " " + getSender().isHoldingWhileWaitingState() + " " + getTime().getValue());
         
         if ((getSender().getOrdinal() == ordinal) && getSender().isHoldingWhileWaitingState()) {
-            //c++;
-            //System.out.println("Risveglio entity! Conditional Event Successful! " + c + " SU " + ordinal);
             getSender().setRunnable();
         } else {
-            //d++;
-            //System.out.println("Altro evento prima!!! " + d);
-            //System.out.flush();
+
         }
     }
 }

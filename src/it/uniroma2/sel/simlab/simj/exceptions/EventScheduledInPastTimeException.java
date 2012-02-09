@@ -27,13 +27,18 @@ package it.uniroma2.sel.simlab.simj.exceptions;
  * remote events, in SimJ distributed executions.
  *
  * @author  Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class EventScheduledInPastTimeException extends TimeException {
     
     /** Creates a new instance of EventTimeExpiredException */
     public EventScheduledInPastTimeException() {
     }
-    
+
+    /** Creates a new instance of EventTimeExpiredException
+     *
+     * @param s the message
+     */
     public EventScheduledInPastTimeException(final String s) {
         super(s);
     }    

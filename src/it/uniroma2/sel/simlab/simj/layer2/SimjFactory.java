@@ -39,21 +39,34 @@ import it.uniroma2.sel.simlab.simj.exceptions.UnableToAddEntityException;
 /** Provides a SimJ implementation of the SimArch's Layer3 factory
  *
  * @author Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class SimjFactory implements Layer3ToLayer2Factory {
-    
+
+    // the engine coordinating the simulation execution
     private ProcessEngine engine;
     
     /** Creates a new instance of SimjFactory */
     public SimjFactory(final Time simulationEnd) {
         engine = new LocalProcessEngine(simulationEnd);
     }
-    
+
+    /** Creates a new instance of SimjFactory, linking it to a distributed simulation
+     * environment
+     *
+     * @param layer2ToLayer1 reference to the underlying layer implementation
+     */
     public SimjFactory(final Layer2ToLayer1 layer2ToLayer1) {
         
         engine = new DistributedProcessEngine(layer2ToLayer1);
     }
-    
+
+    /** Allocated an implementation of Layer3toLayer2 services for the provided entity
+     *
+     * @param e entity
+     * @return layer implementation
+     * @throws InvalidNameException
+     */
     public Layer3ToLayer2 create(final ComponentLevelEntity e) throws InvalidNameException {
         try {
             return new LocalEntity(e);
@@ -62,7 +75,12 @@ public class SimjFactory implements Layer3ToLayer2Factory {
             throw new SimjError(ex);
         }
     }
-        
+
+    /**
+     * Getter method for the Layer1ToLayer2 service implementation
+     *
+     * @return the interface implementation
+     */
     public Layer1ToLayer2 getLayer1ToLayer2() {
         return (DistributedProcessEngine) engine;
     }

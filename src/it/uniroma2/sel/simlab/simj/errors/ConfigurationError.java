@@ -25,13 +25,19 @@ package it.uniroma2.sel.simlab.simj.errors;
 /** Identifies a configuration error within SimJ
  *
  * @author  Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class ConfigurationError extends SimjError {
     
     /** Creates a new instance of ConfigurationError */
     public ConfigurationError() {
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param s {@inheritDoc }
+     */
     public ConfigurationError(final String s) {
         super(s);
     }    

@@ -26,17 +26,26 @@ package it.uniroma2.sel.simlab.simj.exceptions;
  * attached to any link
  *
  * @author Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class PortNotProperlyConfiguredException extends SimjException {
     
     /** Creates a new instance of PortNotProperlyConfiguredException */
     public PortNotProperlyConfiguredException() {
     }
-    
+
+    /** Creates a new instance of PortNotProperlyConfiguredException
+     *
+     * @param e encapsulated exception for further details
+     */
     public PortNotProperlyConfiguredException(final Exception e) {
         super(e);
     }
-    
+
+    /** Creates a new instance of PortNotProperlyConfiguredException
+     *
+     * @param s message associated to the exception
+     */
     public PortNotProperlyConfiguredException(final String s) {
         super(s);
     }

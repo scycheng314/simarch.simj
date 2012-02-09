@@ -30,13 +30,16 @@ import it.uniroma2.sel.simlab.simj.exceptions.SimjException;
  * Represents the Simulation End Event for LocalProcessEngine
  *
  * @author  Daniele Gianni
- * @version July 2005
+ * @version 1.1 06-01-06
  * @see     LocalProcessEngine
  * @see     SimjLocalEvent
  */
 public final class SimulationEndEvent extends SimjEvent {
         
-    /** Creates a new instance of SimulationEndEvent */
+    /** Creates a new instance of SimulationEndEvent
+     *
+     * @param t time
+     */
     public SimulationEndEvent(final SimjTime t) {
         super();
         

@@ -25,6 +25,7 @@ package it.uniroma2.sel.simlab.simj.events;
 /** Possible tags that can be associated to a SimJ event
  *
  * @author Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public enum Tags {   
     WAKE_UP,

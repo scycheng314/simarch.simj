@@ -25,6 +25,7 @@ package it.uniroma2.sel.simlab.simj.exceptions;
 /** Occurs when a time issue is detected
  *
  * @author Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class TimeException extends SimjException {
     
@@ -32,7 +33,11 @@ public class TimeException extends SimjException {
     public TimeException() {
         super();
     }
-    
+
+    /** Creates a new instance of TimeException
+     *
+     * @param s the message
+     */
     public TimeException(final String s) {
         super(s);
     }

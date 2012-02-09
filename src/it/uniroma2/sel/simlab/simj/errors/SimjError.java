@@ -25,17 +25,28 @@ package it.uniroma2.sel.simlab.simj.errors;
 /** Defines the root class for all the error that can occur in SimJ
  *
  * @author  Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class SimjError extends Error {
     
     /** Creates a new instance of SimjError */
     public SimjError() {
     }
-        
+
+    /**
+     * Creates a new instance of SimjError
+     *
+     * @param s the error message
+     */
     public SimjError(final String s) {
         super(s);
     } 
-    
+
+    /**
+     * Creates a new instance of SimjError
+     *
+     * @param t the {@code Throwable} object to be attached to the error
+     */
     public SimjError(final Throwable t) {
         super(t);
     }

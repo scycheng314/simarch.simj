@@ -25,13 +25,18 @@ package it.uniroma2.sel.simlab.simj.errors;
 /** Idenfies a syntactical issue in the entity name
  *
  * @author  Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class InvalidEntityNameError extends ConfigurationError {
     
     /** Creates a new instance of InvalidEntityNameError */
     public InvalidEntityNameError() {
     }
-    
+
+    /**
+     * {@inheritDoc }
+     * @param s {@inheritDoc }
+     */
     public InvalidEntityNameError(final String s) {
         super(s);
     }

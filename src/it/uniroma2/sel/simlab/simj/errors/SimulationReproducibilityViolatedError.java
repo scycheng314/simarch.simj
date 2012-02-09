@@ -25,17 +25,28 @@ package it.uniroma2.sel.simlab.simj.errors;
 /** Identifies a reproducibility violation during a SimJ execution
  *
  * @author  Daniele Gianni
+ * @version 1.1 06-01-06
  */
 public class SimulationReproducibilityViolatedError extends SimjError {
     
     /** Creates a new instance of SimulationReproducibilityViolated */
     public SimulationReproducibilityViolatedError() {
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param s {@inheritdoc }
+     */
     public SimulationReproducibilityViolatedError(final String s) {
         super(s);
     }    
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @param t {@inheritdoc }
+     */
     public SimulationReproducibilityViolatedError(final Throwable t) {
         super(t);
     }

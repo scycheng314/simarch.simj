@@ -31,13 +31,17 @@ import it.uniroma2.sel.simlab.simj.entities.States;
  * {@code DistributedProcessEngine}
  *
  * @author  Daniele Gianni
- * @version July 2005
+ * @version 1.1 06-01-06
  * @see     LocalProcessEngine
  * @see     LocalEntity
  */
 public class WakeUpEvent extends PLocalEvent {
           
-    /** Creates a new instance of WakeUpEvent */
+    /** Creates a new instance of WakeUpEvent
+     *
+     * @param e entity to wake-up
+     * @param t wake-up time
+     */
     public WakeUpEvent(final LocalEntity e, final SimjTime t) {
         super(e, e, t, null, null);
         
@@ -60,8 +64,7 @@ public class WakeUpEvent extends PLocalEvent {
      *  {@link LocalEntity#hold()}.
      *  </p>
      */
-    public void process() {           
-        //????
+    public void process() {                   
         getEngine().setClock(getTime());        
         
         assert (!getSender().getState().equals(States.HOLDING)) : "Entity " + getSender().getFullName() + " was not holding";

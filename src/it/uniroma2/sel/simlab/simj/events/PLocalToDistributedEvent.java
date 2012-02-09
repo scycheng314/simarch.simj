@@ -46,31 +46,54 @@ import it.uniroma2.sel.simlab.simj.exceptions.UnknownEventRecipientException;
  *  @version    1.0 06-01-06
  */
 public class PLocalToDistributedEvent extends PEvent implements Event {
-        
+
+    // local stub for the remote recipient
     private RemoteEntity dest;
     
-    /**
+    /** 
      * Creates a new instance of PLocalToDistributedEvent
-     */    
+     *
+     * @param s sender entity
+     * @param r recipient entity
+     * @param t simulation time
+     * @param e event tag
+     * @param o data attached to the event
+     */
     public PLocalToDistributedEvent(final SimjEntity s, RemoteEntity r, final SimjTime t, final Enum e, final Object o) {
         super(s, null, t, e, o);
         
         dest = r;
     } 
     
-    /**
+    /** 
      * Creates a new instance of PLocalToDistributedEvent
-     */    
+     *
+     * @param s sender entity
+     * @param r recipient entity
+     * @param t simulation time
+     * @param e event tag
+     * @param o data attached to the event
+     */
     public PLocalToDistributedEvent(final SimjEntity s, RemoteEntity r, final Time t, final Enum e, final Object o) {
         super(s, null, SimjTime.buildFrom(t), e, o);
         
         dest = r;
     } 
-    
+
+    /**
+     * Getter method for the engine property
+     *
+     * @return reference to the engine
+     */
     public static DistributedProcessEngine getEngine() {
         return (DistributedProcessEngine )PEvent.getEngine();
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @return {@inheritDoc }
+     */
     public SimjRemoteEntity getRecipient() {
         try {
             return new SimjRemoteEntity(dest);   
@@ -79,17 +102,33 @@ public class PLocalToDistributedEvent extends PEvent implements Event {
         }   
         return null;
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @return {@inheritDoc }
+     */
     public Name getRecipientName() {
         //System.out.println("Remote Recipient Full Name : " + dest.getFullName().getValue());
         return dest.getFullName();
     }
-    
+
+    /**
+     * {@inheritDoc }
+     *
+     * @return {@inheritDoc }
+     */
     public Name getSenderName() {
         return getSender().getFullName();
     }
     
-    /** Being an event to a remote system, it can not be processed locally. */
+    /** Is supposed to process the event. However, being an event to a remote system,
+     * it can not be processed locally.
+     *
+     * @throws EventScheduledInPastTimeException
+     * @throws UnknownEventRecipientException
+     * @throws SimjException
+     */
     public void process() throws EventScheduledInPastTimeException, UnknownEventRecipientException, SimjException {
         throw new SimjInternalException("Unexpected execution of method process in PLocalToDistributedEvent");
     }
